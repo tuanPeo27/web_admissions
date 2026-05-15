@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dang nhap</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .box { max-width: 420px; margin: 0 auto; padding: 24px; border: 1px solid #ddd; }
+        label { display: block; margin-top: 12px; }
+        input { width: 100%; padding: 8px; margin-top: 6px; }
+        button { margin-top: 16px; padding: 10px 14px; }
+        .error { color: #b00020; margin-top: 12px; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>Thi sinh dang nhap</h2>
+    <form method="post" th:action="@{/login}">
+        <label>CCCD</label>
+        <input type="text" name="username" placeholder="Nhap CCCD" required />
+
+        <label>Mat khau</label>
+        <input type="password" name="password" placeholder="Nhap mat khau" required />
+
+        <button type="submit">Dang nhap</button>
+    </form>
+
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tra cuu theo to hop</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f2f2f2; }
+        .error { color: #b00020; margin-top: 12px; }
+    </style>
+</head>
+<body>
+<h2>Tra cuu diem theo to hop mon</h2>
+<form method="post" th:action="@{/tra-cuu/to-hop}">
+    <label>CCCD:</label>
+    <input type="text" name="cccd" th:value="${cccd}" placeholder="Nhap CCCD" required />
+    <button type="submit">Tra cuu</button>
+</form>
+
+<div class="error" th:if="${error}" th:text="${error}"></div>
+
+<table th:if="${not #lists.isEmpty(results)}">
+    <thead>
+    <tr>
+        <th>NV</th>
+        <th>Ma nganh</th>
+        <th>Ten nganh</th>
+        <th>To hop</th>
+        <th>Mon 1</th>
+        <th>Mon 2</th>
+        <th>Mon 3</th>
+        <th>Diem xet tuyen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${results}">
+        <td th:text="${row.thuTu}"></td>
+        <td th:text="${row.maNganh}"></td>
+        <td th:text="${row.tenNganh}"></td>
+        <td th:text="${row.toHop}"></td>
+        <td th:text="${row.mon1}"></td>
+        <td th:text="${row.mon2}"></td>
+        <td th:text="${row.mon3}"></td>
+        <td th:text="${row.diemXetTuyen}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<p th:if="${#lists.isEmpty(results) and cccd != null}">Khong tim thay du lieu.</p>
+</body>
+</html>

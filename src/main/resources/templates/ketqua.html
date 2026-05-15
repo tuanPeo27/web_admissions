@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Ket qua xet tuyen</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f2f2f2; }
+        .success { color: #0a7a22; margin: 12px 0; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; }
+        .muted { color: #666; }
+    </style>
+</head>
+<body>
+<div class="topbar">
+    <h2>Ket qua xet tuyen</h2>
+    <a th:href="@{/logout}">Dang xuat</a>
+</div>
+
+<div class="success" th:if="${loginSuccess}">Dang nhap thanh cong.</div>
+
+<div th:if="${thisSinh != null}">
+    <strong>Ho ten:</strong> <span th:text="${thisSinh.ho}"></span> <span th:text="${thisSinh.ten}"></span>
+    <span class="muted"> | </span>
+    <strong>CCCD:</strong> <span th:text="${thisSinh.cccd}"></span>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>NV</th>
+        <th>Ma nganh</th>
+        <th>Ten nganh</th>
+        <th>Phuong thuc</th>
+        <th>To hop</th>
+        <th>Diem xet tuyen</th>
+        <th>Ket qua</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${results}">
+        <td th:text="${row.thuTu}"></td>
+        <td th:text="${row.maNganh}"></td>
+        <td th:text="${row.tenNganh}"></td>
+        <td th:text="${row.phuongThuc}"></td>
+        <td th:text="${row.toHop}"></td>
+        <td th:text="${row.diemXetTuyen}"></td>
+        <td th:text="${row.ketQua}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(results)}">
+        <td colspan="7">Khong tim thay ket qua.</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
