@@ -2,30 +2,114 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Dang nhap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng nhập</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .box { max-width: 420px; margin: 0 auto; padding: 24px; border: 1px solid #ddd; }
-        label { display: block; margin-top: 12px; }
-        input { width: 100%; padding: 8px; margin-top: 6px; }
-        button { margin-top: 16px; padding: 10px 14px; }
-        .error { color: #b00020; margin-top: 12px; }
+        :root {
+            --sgu-blue: #5aa6e8;
+            --sgu-navy: #1b3f66;
+            --sgu-sky: #f2f8ff;
+        }
+        body {
+            font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: "Merriweather", serif;
+        }
     </style>
 </head>
-<body>
-<div class="box">
-    <h2>Thi sinh dang nhap</h2>
-    <form method="post" th:action="@{/login}">
-        <label>CCCD</label>
-        <input type="text" name="username" placeholder="Nhap CCCD" required />
+<body class="min-h-screen bg-slate-50 text-slate-900">
+<div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_#f2f8ff,_#f8fafc_55%,_#eef4fa_100%)]"></div>
 
-        <label>Mat khau</label>
-        <input type="password" name="password" placeholder="Nhap mat khau" required />
+<div class="mx-auto min-h-screen w-full max-w-6xl px-4 py-10">
+    <header class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="grid h-12 w-12 place-items-center rounded-full bg-white shadow-sm ring-1 ring-slate-200">
+                <img src="/images/sgu-logo.png" alt="Logo SGU" class="h-9 w-9 object-contain" />
+            </div>
+            <div>
+                <p class="text-[11px] uppercase tracking-[0.35em] text-slate-500">Đại học Sài Gòn</p>
+                <h1 class="text-xl font-semibold text-[color:var(--sgu-navy)]">Cổng thông tin tuyển sinh</h1>
+            </div>
+        </div>
+        <div class="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-medium text-slate-600">
+            Năm 2026
+        </div>
+    </header>
 
-        <button type="submit">Dang nhap</button>
-    </form>
+    <main class="mt-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div class="rounded-2xl bg-[color:var(--sgu-navy)] p-6 text-white">
+                <p class="text-xs uppercase tracking-[0.3em] text-slate-200">Thông báo</p>
+                <h2 class="mt-3 text-2xl font-semibold">Tra cứu kết quả xét tuyển</h2>
+                <p class="mt-3 text-sm text-slate-100">
+                    Hệ thống hỗ trợ thí sinh tra cứu thông tin xét tuyển theo CCCD và phương thức.
+                </p>
+            </div>
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                <div class="rounded-2xl border border-slate-200 bg-[color:var(--sgu-sky)] p-4">
+                    <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Hướng dẫn</p>
+                    <p class="mt-2 text-sm text-slate-700">Đăng nhập bằng CCCD và ngày sinh.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-[color:var(--sgu-sky)] p-4">
+                    <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Hỗ trợ</p>
+                    <p class="mt-2 text-sm text-slate-700">Liên hệ phòng đào tạo nếu cần cấp lại thông tin.</p>
+                </div>
+            </div>
+        </section>
 
-    <div class="error" th:if="${error}" th:text="${error}"></div>
+        <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-2xl">
+            <div class="mb-6">
+                <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Thí sinh</p>
+                <h2 class="mt-2 text-2xl font-semibold text-[color:var(--sgu-navy)]">Đăng nhập hệ thống</h2>
+                <p class="mt-1 text-sm text-slate-600">Nhập thông tin để tiếp tục tra cứu.</p>
+            </div>
+
+            <form method="post" th:action="@{/login}" class="space-y-4">
+                <div>
+                    <label class="text-sm font-medium text-slate-700">CCCD</label>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Nhập CCCD"
+                        required
+                        class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--sgu-blue)] focus:outline-none focus:ring-2 focus:ring-blue-100"
+                    />
+                </div>
+
+                <div>
+                    <label class="text-sm font-medium text-slate-700">Mật khẩu</label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Nhập mật khẩu"
+                        required
+                        class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--sgu-blue)] focus:outline-none focus:ring-2 focus:ring-blue-100"
+                    />
+                </div>
+
+                <button
+                    type="submit"
+                    class="w-full rounded-xl bg-[color:var(--sgu-blue)] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-100 transition hover:-translate-y-0.5 hover:bg-blue-600"
+                >
+                    Đăng nhập
+                </button>
+            </form>
+
+            <div
+                class="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                th:if="${error}"
+                th:text="${error}"
+            ></div>
+        </section>
+    </main>
 </div>
 </body>
 </html>

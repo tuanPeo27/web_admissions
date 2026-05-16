@@ -22,9 +22,14 @@ public class NguyenVongRepository {
             + "nv.nv_ketqua, nv.tt_phuongthuc, nv.tt_thm, "
             + "n.tennganh, th.mon1, th.mon2, th.mon3, th.tentohop "
             + "FROM xt_nguyenvongxettuyen nv "
-            + "LEFT JOIN xt_nganh n ON n.manganh = nv.nv_manganh "
-            + "LEFT JOIN xt_tohop_monthi th ON th.matohop = nv.tt_thm "
-            + "WHERE nv.nn_cccd = ? "
+            + "LEFT JOIN xt_nganh n ON "
+            + "CONVERT(n.manganh USING utf8mb4) COLLATE utf8mb4_unicode_ci = "
+            + "CONVERT(nv.nv_manganh USING utf8mb4) COLLATE utf8mb4_unicode_ci "
+            + "LEFT JOIN xt_tohop_monthi th ON "
+            + "CONVERT(th.matohop USING utf8mb4) COLLATE utf8mb4_unicode_ci = "
+            + "CONVERT(nv.tt_thm USING utf8mb4) COLLATE utf8mb4_unicode_ci "
+            + "WHERE CONVERT(nv.nn_cccd USING utf8mb4) COLLATE utf8mb4_unicode_ci = "
+            + "CONVERT(? USING utf8mb4) COLLATE utf8mb4_unicode_ci "
             + "ORDER BY nv.nv_tt ASC";
         return jdbcTemplate.query(sql, new NguyenVongRowMapper(), cccd);
     }

@@ -2,57 +2,130 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Ket qua xet tuyen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kết quả xét tuyển</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 30px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f2f2f2; }
-        .success { color: #0a7a22; margin: 12px 0; }
-        .topbar { display: flex; justify-content: space-between; align-items: center; }
-        .muted { color: #666; }
+        :root {
+            --sgu-blue: #5aa6e8;
+            --sgu-navy: #1b3f66;
+            --sgu-sky: #f2f8ff;
+        }
+        body {
+            font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: "Merriweather", serif;
+        }
     </style>
 </head>
-<body>
-<div class="topbar">
-    <h2>Ket qua xet tuyen</h2>
-    <a th:href="@{/logout}">Dang xuat</a>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+<div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_#f2f8ff,_#f8fafc_55%,_#eef4fa_100%)]"></div>
+
+<div class="mx-auto w-full max-w-6xl px-4 py-8">
+    <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="grid h-12 w-12 place-items-center rounded-full bg-white shadow-sm ring-1 ring-slate-200">
+                <img src="/images/sgu-logo.png" alt="Logo SGU" class="h-9 w-9 object-contain" />
+            </div>
+            <div>
+                <p class="text-[11px] uppercase tracking-[0.35em] text-slate-500">Đại học Sài Gòn</p>
+                <h1 class="text-xl font-semibold text-[color:var(--sgu-navy)]">Kết quả xét tuyển</h1>
+                <p class="mt-1 text-sm text-slate-600">Tổng hợp kết quả xét tuyển theo CCCD.</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <a
+                th:href="@{/tra-cuu/phuong-thuc}"
+                class="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300"
+            >
+                Tra cứu theo phương thức
+            </a>
+            <a
+                th:href="@{/tra-cuu/to-hop}"
+                class="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300"
+            >
+                Tra cứu theo tổ hợp
+            </a>
+            <a
+                th:href="@{/logout}"
+                class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300"
+            >
+                Đăng xuất
+            </a>
+        </div>
+    </header>
+
+    <div
+        class="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"
+        th:if="${loginSuccess}"
+    >
+        Đăng nhập thành công.
+    </div>
+
+    <div
+        class="mb-6 flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm"
+        th:if="${thisSinh != null}"
+    >
+        <span class="font-medium text-slate-700">Họ tên:</span>
+        <span class="text-slate-900" th:text="${thisSinh.ho}"></span>
+        <span class="text-slate-900" th:text="${thisSinh.ten}"></span>
+        <span class="text-slate-400">|</span>
+        <span class="font-medium text-slate-700">CCCD:</span>
+        <span class="text-slate-900" th:text="${thisSinh.cccd}"></span>
+    </div>
+
+    <div
+        class="mb-6 grid gap-3 sm:grid-cols-2"
+        th:if="${not #lists.isEmpty(results)}"
+    >
+        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Tổng nguyện vọng</p>
+            <p class="mt-2 text-2xl font-semibold text-[color:var(--sgu-navy)]" th:text="${#lists.size(results)}"></p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Trạng thái</p>
+            <p class="mt-2 text-base font-semibold text-[color:var(--sgu-navy)]">Đã cập nhật</p>
+        </div>
+    </div>
+
+    <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-blue-50/70 text-xs uppercase tracking-widest text-slate-700">
+                <tr>
+                    <th class="px-4 py-3">Nguyện vọng</th>
+                    <th class="px-4 py-3">Mã ngành</th>
+                    <th class="px-4 py-3">Tên ngành</th>
+                    <th class="px-4 py-3">Phương thức</th>
+                    <th class="px-4 py-3">Tổ hợp</th>
+                    <th class="px-4 py-3">Điểm xét tuyển</th>
+                    <th class="px-4 py-3">Kết quả</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                <tr th:each="row : ${results}" class="hover:bg-blue-50/60">
+                    <td class="px-4 py-3" th:text="${row.thuTu}"></td>
+                    <td class="px-4 py-3" th:text="${row.maNganh}"></td>
+                    <td class="px-4 py-3" th:text="${row.tenNganh}"></td>
+                    <td class="px-4 py-3" th:text="${row.phuongThuc}"></td>
+                    <td class="px-4 py-3" th:text="${row.toHop}"></td>
+                    <td class="px-4 py-3" th:text="${row.diemXetTuyen}"></td>
+                    <td class="px-4 py-3" th:text="${row.ketQua}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(results)}">
+                    <td class="px-4 py-6 text-center text-slate-500" colspan="7">Không tìm thấy kết quả.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
-<div class="success" th:if="${loginSuccess}">Dang nhap thanh cong.</div>
-
-<div th:if="${thisSinh != null}">
-    <strong>Ho ten:</strong> <span th:text="${thisSinh.ho}"></span> <span th:text="${thisSinh.ten}"></span>
-    <span class="muted"> | </span>
-    <strong>CCCD:</strong> <span th:text="${thisSinh.cccd}"></span>
-</div>
-
-<table>
-    <thead>
-    <tr>
-        <th>NV</th>
-        <th>Ma nganh</th>
-        <th>Ten nganh</th>
-        <th>Phuong thuc</th>
-        <th>To hop</th>
-        <th>Diem xet tuyen</th>
-        <th>Ket qua</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="row : ${results}">
-        <td th:text="${row.thuTu}"></td>
-        <td th:text="${row.maNganh}"></td>
-        <td th:text="${row.tenNganh}"></td>
-        <td th:text="${row.phuongThuc}"></td>
-        <td th:text="${row.toHop}"></td>
-        <td th:text="${row.diemXetTuyen}"></td>
-        <td th:text="${row.ketQua}"></td>
-    </tr>
-    <tr th:if="${#lists.isEmpty(results)}">
-        <td colspan="7">Khong tim thay ket qua.</td>
-    </tr>
-    </tbody>
-</table>
 </body>
 </html>

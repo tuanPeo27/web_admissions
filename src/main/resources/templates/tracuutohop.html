@@ -2,52 +2,130 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Tra cuu theo to hop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tra cứu theo tổ hợp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 30px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f2f2f2; }
-        .error { color: #b00020; margin-top: 12px; }
+        :root {
+            --sgu-blue: #5aa6e8;
+            --sgu-navy: #1b3f66;
+            --sgu-sky: #f2f8ff;
+        }
+        body {
+            font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: "Merriweather", serif;
+        }
     </style>
 </head>
-<body>
-<h2>Tra cuu diem theo to hop mon</h2>
-<form method="post" th:action="@{/tra-cuu/to-hop}">
-    <label>CCCD:</label>
-    <input type="text" name="cccd" th:value="${cccd}" placeholder="Nhap CCCD" required />
-    <button type="submit">Tra cuu</button>
-</form>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+<div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_#f2f8ff,_#f8fafc_55%,_#eef4fa_100%)]"></div>
 
-<div class="error" th:if="${error}" th:text="${error}"></div>
+<div class="mx-auto w-full max-w-6xl px-4 py-8">
+    <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="grid h-12 w-12 place-items-center rounded-full bg-white shadow-sm ring-1 ring-slate-200">
+                <img src="/images/sgu-logo.png" alt="Logo SGU" class="h-9 w-9 object-contain" />
+            </div>
+            <div>
+                <p class="text-[11px] uppercase tracking-[0.35em] text-slate-500">Đại học Sài Gòn</p>
+                <h1 class="text-xl font-semibold text-[color:var(--sgu-navy)]">Tra cứu theo tổ hợp</h1>
+                <p class="mt-1 text-sm text-slate-600">Nhập CCCD để xem kết quả theo tổ hợp.</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <a
+                th:href="@{/ket-qua}"
+                class="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300"
+            >
+                Kết quả xét tuyển
+            </a>
+            <a
+                th:href="@{/tra-cuu/phuong-thuc}"
+                class="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300"
+            >
+                Tra cứu theo phương thức
+            </a>
+        </div>
+    </header>
 
-<table th:if="${not #lists.isEmpty(results)}">
-    <thead>
-    <tr>
-        <th>NV</th>
-        <th>Ma nganh</th>
-        <th>Ten nganh</th>
-        <th>To hop</th>
-        <th>Mon 1</th>
-        <th>Mon 2</th>
-        <th>Mon 3</th>
-        <th>Diem xet tuyen</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="row : ${results}">
-        <td th:text="${row.thuTu}"></td>
-        <td th:text="${row.maNganh}"></td>
-        <td th:text="${row.tenNganh}"></td>
-        <td th:text="${row.toHop}"></td>
-        <td th:text="${row.mon1}"></td>
-        <td th:text="${row.mon2}"></td>
-        <td th:text="${row.mon3}"></td>
-        <td th:text="${row.diemXetTuyen}"></td>
-    </tr>
-    </tbody>
-</table>
+    <form
+        method="post"
+        th:action="@{/tra-cuu/to-hop}"
+        class="mb-6 flex flex-wrap items-end gap-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-xl"
+    >
+        <div class="flex-1">
+            <label class="text-sm font-medium text-slate-700">CCCD</label>
+            <input
+                type="text"
+                name="cccd"
+                th:value="${cccd}"
+                placeholder="Nhập CCCD"
+                required
+                class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--sgu-blue)] focus:outline-none focus:ring-2 focus:ring-blue-100"
+            />
+        </div>
+        <button
+            type="submit"
+            class="rounded-xl bg-[color:var(--sgu-blue)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-100 transition hover:-translate-y-0.5 hover:bg-blue-600"
+        >
+            Tra cứu
+        </button>
+    </form>
 
-<p th:if="${#lists.isEmpty(results) and cccd != null}">Khong tim thay du lieu.</p>
+    <div
+        class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        th:if="${error}"
+        th:text="${error}"
+    ></div>
+
+    <div
+        class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl"
+        th:if="${not #lists.isEmpty(results)}"
+    >
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-blue-50/70 text-xs uppercase tracking-widest text-slate-700">
+                <tr>
+                    <th class="px-4 py-3">Nguyện vọng</th>
+                    <th class="px-4 py-3">Mã ngành</th>
+                    <th class="px-4 py-3">Tên ngành</th>
+                    <th class="px-4 py-3">Tổ hợp</th>
+                    <th class="px-4 py-3">Môn 1</th>
+                    <th class="px-4 py-3">Môn 2</th>
+                    <th class="px-4 py-3">Môn 3</th>
+                    <th class="px-4 py-3">Điểm xét tuyển</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                <tr th:each="row : ${results}" class="hover:bg-blue-50/60">
+                    <td class="px-4 py-3" th:text="${row.thuTu}"></td>
+                    <td class="px-4 py-3" th:text="${row.maNganh}"></td>
+                    <td class="px-4 py-3" th:text="${row.tenNganh}"></td>
+                    <td class="px-4 py-3" th:text="${row.toHop}"></td>
+                    <td class="px-4 py-3" th:text="${row.mon1}"></td>
+                    <td class="px-4 py-3" th:text="${row.mon2}"></td>
+                    <td class="px-4 py-3" th:text="${row.mon3}"></td>
+                    <td class="px-4 py-3" th:text="${row.diemXetTuyen}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <p
+        class="mt-6 text-sm text-slate-500"
+        th:if="${#lists.isEmpty(results) and cccd != null}"
+    >
+        Không tìm thấy dữ liệu.
+    </p>
+</div>
 </body>
 </html>
