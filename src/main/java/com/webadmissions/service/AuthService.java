@@ -1,6 +1,8 @@
 package com.webadmissions.service;
 
+import com.webadmissions.model.User;
 import com.webadmissions.repository.UserRepository;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,10 +13,10 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public boolean isValidLogin(String username, String password) {
+    public Optional<User> authenticate(String username, String password) {
         if (username == null || username.isBlank() || password == null || password.isBlank()) {
-            return false;
+            return Optional.empty();
         }
-        return userRepository.findActiveByUsernameAndPassword(username.trim(), password).isPresent();
+        return userRepository.findActiveByUsernameAndPassword(username.trim(), password);
     }
 }

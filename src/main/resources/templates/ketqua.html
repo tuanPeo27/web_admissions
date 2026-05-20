@@ -117,7 +117,8 @@
                     <td class="px-4 py-3" th:text="${row.phuongThuc}"></td>
                     <td class="px-4 py-3" th:text="${row.toHop}"></td>
                     <td class="px-4 py-3" th:text="${row.diemXetTuyen}"></td>
-                    <td class="px-4 py-3" th:text="${row.ketQua}"></td>
+                    <td class="px-4 py-3"
+                        th:text="${row.ketQua == 'Trung_tuyen' ? 'Đã trúng tuyển' : (row.ketQua == 'ROT' ? 'Rớt' : row.ketQua)}"></td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(results)}">
                     <td class="px-4 py-6 text-center text-slate-500" colspan="7">Không tìm thấy kết quả.</td>

@@ -18,11 +18,12 @@ public class UserRepository {
 
     public Optional<User> findActiveByUsernameAndPassword(String username, String password) {
         String sql = "SELECT id, username, password, role, status "
-            + "FROM xt_users "
-            + "WHERE username = ? AND password = ? AND (status IS NULL OR status = 1)";
+                + "FROM xt_users "
+                + "WHERE username = ? AND password = ?";
+
         return jdbcTemplate.query(sql, new UserRowMapper(), username, password)
-            .stream()
-            .findFirst();
+                .stream()
+                .findFirst();
     }
 
     private static class UserRowMapper implements RowMapper<User> {
